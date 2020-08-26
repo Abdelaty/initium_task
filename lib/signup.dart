@@ -1,12 +1,45 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:initium_task/login.dart';
 
-class SignupScreen extends StatelessWidget {
+import 'network.dart';
+
+class SignupScreen extends StatefulWidget {
+  @override
+  _SignupScreenState createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  TextEditingController firstNameController = new TextEditingController();
+  TextEditingController lastNameController = new TextEditingController();
+  TextEditingController mobileController = new TextEditingController();
+  TextEditingController idController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  TextEditingController rePasswordController = new TextEditingController();
+  var agreeWithTerms = false;
+  String customerFirstName,
+      customerLastName,
+      customerMobileNo,
+      customerCivilID,
+      customerEmail,
+      customerPassword;
+
+  void _onRememberMeChanged(bool newValue) => setState(() {
+        agreeWithTerms = newValue;
+
+        if (agreeWithTerms) {
+          print('Agreed');
+        } else {
+          // TODO: Forget the user
+          print('not Agreed');
+        }
+      });
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Material(
-      child: Stack(
+    return Scaffold(
+      body: Stack(
         children: <Widget>[
           Container(
             color: Color(0xFFf35829),
@@ -86,27 +119,55 @@ class SignupScreen extends StatelessWidget {
                     ),
                   ),
                   LineRowWidget(text: 'Contact\nInformation'),
-                  NewTextField(hint: 'First Name'),
-                  NewTextField(hint: 'Last Name'),
-                  NewTextField(hint: 'Mobile Number'),
+                  NewTextField(
+                    hint: 'First Name',
+                    obscureText: false,
+                    controller: firstNameController,
+                  ),
+                  NewTextField(
+                    hint: 'Last Name',
+                    obscureText: false,
+                    controller: lastNameController,
+                  ),
+                  NewTextField(
+                    hint: 'Mobile Number',
+                    obscureText: false,
+                    controller: mobileController,
+                  ),
                   SizedBox(
                     height: 10.0,
                   ),
                   LineRowWidget(text: 'Access\nInformation'),
-                  NewTextField(hint: 'Civil ID'),
-                  NewTextField(hint: 'Email Address'),
+                  NewTextField(
+                    hint: 'Civil ID',
+                    obscureText: false,
+                    controller: idController,
+                  ),
+                  NewTextField(
+                    hint: 'Email Address',
+                    obscureText: false,
+                    controller: emailController,
+                  ),
                   SizedBox(
                     height: 20.0,
                   ),
-                  NewTextField(hint: 'Password'),
-                  NewTextField(hint: 'Retype Password'),
+                  NewTextField(
+                    hint: 'Password',
+                    obscureText: true,
+                    controller: passwordController,
+                  ),
+                  NewTextField(
+                    hint: 'Retype Password',
+                    obscureText: true,
+                    controller: rePasswordController,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Checkbox(
-                        value: true,
+                        value: agreeWithTerms,
                         checkColor: Colors.white,
-                        onChanged: null,
+                        onChanged: _onRememberMeChanged,
                         activeColor: Color(0xFFf35829),
                       ),
                       Text(
@@ -121,7 +182,9 @@ class SignupScreen extends StatelessWidget {
                     ],
                   ),
                   RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      validateData() ? sendData() : showAlertDialog(context);
+                    },
                     child: Text(
                       'Complete Registration',
                       style: TextStyle(fontSize: 20.0),
@@ -139,36 +202,116 @@ class SignupScreen extends StatelessWidget {
       ),
     );
   }
+
+  bool validateData() {
+    if (firstNameController.text != null &&
+        firstNameController.text.length > 2 &&
+        lastNameController.text != null &&
+        mobileController.text != null &&
+        mobileController.text.length > 5 &&
+        idController.text != null &&
+        emailController.text != null &&
+        emailController.text.contains('@') &&
+        passwordController.text != null &&
+        passwordController.text == rePasswordController.text &&
+        agreeWithTerms == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  sendData() async {
+    var userRegistrationData = {
+      'CustomerFirstName': firstNameController.text,
+      'CustomerLastName': lastNameController.text,
+      'CustomerMobileNo': mobileController.text,
+      'CustomerCivilID': idController.text,
+      'CustomerEmail': emailController.text,
+      'CustomerPassword': passwordController.text
+    };
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://prod-94.westeurope.logic.azure.com/workflows/2b388c189a8042d8a8011dea9a4dffc2/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoLTJf5Pf_LO8pZdhQvebsJ_FFMP9wMd0wNRjjCnY3U',
+        userRegistrationData);
+    var responseCode = await networkHelper.sendData();
+    if (responseCode != 200) {
+      showAlertDialog(context);
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Something wrong!"),
+      content: Text("Please check your information again."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
 
 class NewTextField extends StatelessWidget {
   final String hint;
+  final bool obscureText;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController controller;
 
-  NewTextField({
-    Key key,
-    this.hint,
-  }) : super(key: key);
+  NewTextField({Key key, this.hint, this.obscureText, this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 30.0,
       margin: EdgeInsets.only(left: 70.0, right: 70.0, top: 10),
-      child: TextField(
-        textAlignVertical: TextAlignVertical(y: 1.0),
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 14.0),
-        maxLines: 1,
-        decoration: new InputDecoration(
-            border: new OutlineInputBorder(
-              borderRadius: const BorderRadius.all(
-                const Radius.circular(10.0),
+      child: Form(
+        key: _formKey,
+        child: TextFormField(
+          controller: controller,
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
+          obscureText: obscureText,
+          textAlignVertical: TextAlignVertical(y: 1.0),
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 14.0),
+          maxLines: 1,
+          decoration: new InputDecoration(
+              border: new OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  const Radius.circular(10.0),
+                ),
               ),
-            ),
-            filled: true,
-            hintStyle: new TextStyle(color: Colors.grey[600]),
-            hintText: hint,
-            fillColor: Color(0xFFe7e6e6)),
+              filled: true,
+              hintStyle: new TextStyle(color: Colors.grey[600]),
+              hintText: hint,
+              fillColor: Color(0xFFe7e6e6)),
+        ),
       ),
     );
   }
