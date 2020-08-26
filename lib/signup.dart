@@ -57,7 +57,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   child: const DecoratedBox(
                       decoration: const BoxDecoration(
-                        color: primaryColor,
+                    color: primaryColor,
                   )),
                   width: double.infinity,
                   height: 100.0,
@@ -215,7 +215,7 @@ class _SignupScreenState extends State<SignupScreen> {
       'CustomerPassword': passwordController.text
     };
     NetworkHelper networkHelper =
-    NetworkHelper(signupAPI_URL, userRegistrationData);
+        NetworkHelper(signupAPI_URL, userRegistrationData);
     var responseCode = await networkHelper.sendData();
     if (responseCode != 200) {
       showAlertDialog(context);
