@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:initium_task/login.dart';
 
+import 'constants.dart';
 import 'network.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -18,20 +19,12 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController passwordController = new TextEditingController();
   TextEditingController rePasswordController = new TextEditingController();
   var agreeWithTerms = false;
-  String customerFirstName,
-      customerLastName,
-      customerMobileNo,
-      customerCivilID,
-      customerEmail,
-      customerPassword;
-
   void _onRememberMeChanged(bool newValue) => setState(() {
         agreeWithTerms = newValue;
 
         if (agreeWithTerms) {
           print('Agreed');
         } else {
-          // TODO: Forget the user
           print('not Agreed');
         }
       });
@@ -39,24 +32,15 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       body: Stack(
         children: <Widget>[
           Container(
-            color: Color(0xFFf35829),
+            color: primaryColor,
             child: Column(
               children: <Widget>[
                 AppBar(
                   elevation: 20.0,
-                  leading: IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      // do something
-                    },
-                  ),
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(
@@ -73,7 +57,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   child: const DecoratedBox(
                       decoration: const BoxDecoration(
-                    color: Color(0xFFf35829),
+                        color: primaryColor,
                   )),
                   width: double.infinity,
                   height: 100.0,
@@ -168,7 +152,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         value: agreeWithTerms,
                         checkColor: Colors.white,
                         onChanged: _onRememberMeChanged,
-                        activeColor: Color(0xFFf35829),
+                        activeColor: primaryColor,
                       ),
                       Text(
                         'I agree with ',
@@ -191,8 +175,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     textColor: Colors.white,
                     padding: EdgeInsets.all(12.0),
-                    splashColor: Color(0xFFf35829),
-                    color: Color(0xFFf35829),
+                    splashColor: primaryColor,
+                    color: primaryColor,
                   ),
                 ],
               ),
@@ -230,9 +214,8 @@ class _SignupScreenState extends State<SignupScreen> {
       'CustomerEmail': emailController.text,
       'CustomerPassword': passwordController.text
     };
-    NetworkHelper networkHelper = NetworkHelper(
-        'https://prod-94.westeurope.logic.azure.com/workflows/2b388c189a8042d8a8011dea9a4dffc2/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoLTJf5Pf_LO8pZdhQvebsJ_FFMP9wMd0wNRjjCnY3U',
-        userRegistrationData);
+    NetworkHelper networkHelper =
+    NetworkHelper(signupAPI_URL, userRegistrationData);
     var responseCode = await networkHelper.sendData();
     if (responseCode != 200) {
       showAlertDialog(context);
@@ -333,8 +316,7 @@ class LineRowWidget extends StatelessWidget {
         new Flexible(
           flex: 1,
           child: SizedBox(
-            child: DecoratedBox(
-                decoration: BoxDecoration(color: Color(0xFFf35829))),
+            child: DecoratedBox(decoration: BoxDecoration(color: primaryColor)),
             height: 2.0,
             width: double.infinity,
           ),
@@ -344,7 +326,7 @@ class LineRowWidget extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              color: Color(0xFFf35829),
+              color: primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: 18.0,
             ),
@@ -354,8 +336,7 @@ class LineRowWidget extends StatelessWidget {
         new Flexible(
           flex: 1,
           child: SizedBox(
-            child: DecoratedBox(
-                decoration: BoxDecoration(color: Color(0xFFf35829))),
+            child: DecoratedBox(decoration: BoxDecoration(color: primaryColor)),
             height: 2.0,
             width: double.infinity,
           ),

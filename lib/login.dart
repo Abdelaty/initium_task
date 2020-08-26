@@ -1,5 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:initium_task/constants.dart';
+import 'package:initium_task/main.dart';
+import 'package:initium_task/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'network.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,28 +14,20 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isSwitched = false;
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
+    return Scaffold(
+      body: Stack(
         children: <Widget>[
           Container(
-            color: Color(0xFFf35829),
+            color: primaryColor,
             child: Column(
               children: <Widget>[
                 AppBar(
                   elevation: 20.0,
-                  leading: IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      // do something
-                    },
-                  ),
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(
@@ -46,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   child: const DecoratedBox(
                       decoration: const BoxDecoration(
-                    color: Color(0xFFf35829),
+                        color: primaryColor,
                   )),
                   width: double.infinity,
                   height: 100.0,
@@ -91,8 +89,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  NewTextField(hint: 'Email Address'),
-                  NewTextField(hint: 'Password'),
+                  NewTextField(
+                    hint: 'Email Address',
+                    controller: emailController,
+                  ),
+                  NewTextField(
+                      hint: 'Password', controller: passwordController),
                   SizedBox(
                     height: 10.0,
                   ),
@@ -103,11 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         value: isSwitched,
                         onChanged: (value) {
                           setState(() {
-                            isSwitched = true;
+                            isSwitched = value;
                             saveLoginCredentials();
                           });
                         },
-                        activeColor: Color(0xFFf35829),
+                        activeColor: primaryColor,
                       ),
                       Text(
                           'I would like to save my login \n credentials to this device')
@@ -128,15 +130,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     margin: EdgeInsets.all(6.0),
                     child: RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        validateData() ? sendData() : showAlertDialog(context);
+                      },
                       child: Text(
                         '                   Login                   ',
                         style: TextStyle(fontSize: 20.0),
                       ),
                       textColor: Colors.white,
                       padding: EdgeInsets.all(12.0),
-                      splashColor: Color(0xFFf35829),
-                      color: Color(0xFFf35829),
+                      splashColor: primaryColor,
+                      color: primaryColor,
                     ),
                   ),
                   Row(
@@ -148,7 +152,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             letterSpacing: -0.5, color: Colors.grey[800]),
                       ),
                       FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignupScreen()),
+                          );
+                        },
                         child: Text(
                           'Register Now',
                           style: TextStyle(color: Colors.blue[500]),
@@ -168,14 +178,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Don’t have an account yet? ',
+                    'By using this app, you confirm accepting',
                     style:
                         TextStyle(letterSpacing: -0.5, color: Colors.grey[800]),
                   ),
                   FlatButton(
                     onPressed: () {},
                     child: Text(
-                      'Register Now',
+                      'Terms & Conditions',
                       style: TextStyle(color: Colors.blue[500]),
                     ),
                   )
@@ -188,16 +198,73 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  saveLoginCredentials() {}
+  saveLoginCredentials() async {
+    var preferences = await SharedPreferences.getInstance();
+    preferences.setBool('isLogged', true);
+  }
+
+  bool validateData() {
+    if (emailController.text != null &&
+        emailController.text.contains('@') &&
+        passwordController.text != null &&
+        passwordController.text.length > 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  sendData() async {
+    var userLoginData = {
+      'CustomerEmail': emailController.text,
+      'CustomerPassword': passwordController.text
+    };
+    NetworkHelper networkHelper = NetworkHelper(loginAPI_URL, userLoginData);
+    var responseCode = await networkHelper.sendLoginData();
+    if (responseCode != 200) {
+      showAlertDialog(context);
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+      if (isSwitched) saveLoginCredentials();
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Something wrong!"),
+      content: Text("Email or Password are wrong."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
 
 class NewTextField extends StatelessWidget {
   final String hint;
+  final TextEditingController controller;
 
-  NewTextField({
-    Key key,
-    this.hint,
-  }) : super(key: key);
+  NewTextField({Key key, this.hint, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -205,6 +272,7 @@ class NewTextField extends StatelessWidget {
       height: 30.0,
       margin: EdgeInsets.only(left: 70.0, right: 70.0, top: 10),
       child: TextField(
+        controller: controller,
         textAlignVertical: TextAlignVertical(y: 1.0),
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 14.0),
@@ -240,8 +308,7 @@ class LineRowWidget extends StatelessWidget {
         new Flexible(
           flex: 1,
           child: SizedBox(
-            child: DecoratedBox(
-                decoration: BoxDecoration(color: Color(0xFFf35829))),
+            child: DecoratedBox(decoration: BoxDecoration(color: primaryColor)),
             height: 2.0,
             width: double.infinity,
           ),
@@ -251,7 +318,7 @@ class LineRowWidget extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              color: Color(0xFFf35829),
+              color: primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: 18.0,
             ),
@@ -261,8 +328,7 @@ class LineRowWidget extends StatelessWidget {
         new Flexible(
           flex: 1,
           child: SizedBox(
-            child: DecoratedBox(
-                decoration: BoxDecoration(color: Color(0xFFf35829))),
+            child: DecoratedBox(decoration: BoxDecoration(color: primaryColor)),
             height: 2.0,
             width: double.infinity,
           ),
