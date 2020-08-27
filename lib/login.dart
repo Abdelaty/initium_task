@@ -92,9 +92,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   NewTextField(
                     hint: 'Email Address',
                     controller: emailController,
+                    obscureText: false,
                   ),
                   NewTextField(
-                      hint: 'Password', controller: passwordController),
+                    hint: 'Password',
+                    controller: passwordController,
+                    obscureText: true,
+                  ),
                   SizedBox(
                     height: 10.0,
                   ),
@@ -263,8 +267,10 @@ class _LoginScreenState extends State<LoginScreen> {
 class NewTextField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
+  final obscureText;
 
-  NewTextField({Key key, this.hint, this.controller}) : super(key: key);
+  NewTextField({Key key, this.hint, this.controller, this.obscureText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -272,6 +278,7 @@ class NewTextField extends StatelessWidget {
       height: 30.0,
       margin: EdgeInsets.only(left: 70.0, right: 70.0, top: 10),
       child: TextField(
+        obscureText: obscureText,
         controller: controller,
         textAlignVertical: TextAlignVertical(y: 1.0),
         textAlign: TextAlign.center,

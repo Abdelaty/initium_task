@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:initium_task/cell.dart';
 import 'package:initium_task/login.dart';
 import 'package:initium_task/main.dart';
 import 'package:initium_task/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
+import 'network.dart';
 
 void main() {
   runApp(MyApp());
@@ -51,6 +53,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var responseList;
+
   @override
   Widget build(BuildContext context) {
     checkIfLogged(context);
@@ -79,8 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   child: const DecoratedBox(
                       decoration: const BoxDecoration(
-                    color: primaryColor,
-                  )),
+                        color: primaryColor,
+                      )),
                   width: double.infinity,
                   height: 100.0,
                 ),
@@ -125,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Text(
                         'Select entity to continue',
                         style: TextStyle(
@@ -135,7 +139,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  )
+                  ),
+                  GridView.count(
+                      mainAxisSpacing: 20,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.4,
+                      children: setOrganizationList(responseList))
                 ],
               ),
             ),
@@ -155,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text(
                     'Login to your account',
                     style:
-                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400),
+                    TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400),
                   ),
                   textColor: Colors.white,
                   padding: EdgeInsets.all(12.0),
@@ -173,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text(
                       'Don’t have an account yet?',
                       style:
-                          TextStyle(fontSize: 18.0, color: Color(0xFF7f7f7f)),
+                      TextStyle(fontSize: 18.0, color: Color(0xFF7f7f7f)),
                     ),
                     FlatButton(
                       onPressed: () {
@@ -186,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Text(
                         'Register Now!',
                         style:
-                            TextStyle(fontSize: 18.0, color: Color(0xFF00b0f0)),
+                        TextStyle(fontSize: 18.0, color: Color(0xFF00b0f0)),
                       ),
                     ),
                   ],
@@ -199,4 +210,14 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: AppDrawer(),
     );
   }
+
+  Future<void> getOrganizationsData() async {
+    NetworkHelper networkHelper = NetworkHelper(getOrganizationAPI_URL, null);
+    responseList = await networkHelper.getOrganizationsData();
+    for (int i in responseList) {
+      return Cell(responseList[i]);
+    }
+  }
+
+  dynamic setOrganizationList(var responseList) {}
 }

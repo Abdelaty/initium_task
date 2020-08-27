@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'organization_model.dart';
+
 class NetworkHelper {
   NetworkHelper(this.url, this.customerMap);
 
@@ -25,6 +27,21 @@ class NetworkHelper {
       customerMap.forEach((key, value) {
         print(value);
       });
+    }
+  }
+
+  // ignore: missing_return
+  Future<List<OrganizationModel>> getOrganizationsData() async {
+    http.Response response = await http.post(url, headers: headersMap);
+    if (response.statusCode == 200) {
+      print('Response Code is ' + response.statusCode.toString());
+//      return jsonDecode(response.body);
+      return (jsonDecode(response.body)['Collection'] as List)
+          .map((p) => OrganizationModel.fromJson(p))
+          .toList();
+    } else {
+      print('Response Code is ' + response.statusCode.toString());
+      print('Response body is ' + response.body.toString());
     }
   }
 

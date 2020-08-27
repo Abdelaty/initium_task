@@ -10,6 +10,8 @@ const signupAPI_URL =
 const loginAPI_URL =
     'https://prod-80.westeurope.logic.azure.com/workflows/0d82783b372144f39d80734118867ced/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ncxT3y2VEzCw0b7xKIz75oINuFmNrlaeohK7SIYaORs';
 const primaryColor = Color(0xFFf35829);
+const getOrganizationAPI_URL =
+    'https://prod-40.westeurope.logic.azure.com/workflows/454307d87b9a401d9908ebc9ffe0cccb/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kVqO2Ou8fCAbdg634i3eh2Sg6xXrD1Uj8brhuNrZD-g';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
