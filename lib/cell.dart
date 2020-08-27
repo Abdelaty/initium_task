@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:initium_task/organization_model.dart';
 
 class Cell extends StatelessWidget {
-  const Cell(this.organizationModel);
+  final String thumbnailUrl;
+  final String title;
+  final clicker;
 
   @required
-  final OrganizationModel organizationModel;
+  const Cell({@required this.title, @required this.thumbnailUrl, this.clicker});
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +18,31 @@ class Cell extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Image.network(organizationModel.thumbnailUrl,
-                  width: 70.0,
-                  height: 70.0,
-                  alignment: Alignment.center,
-                  fit: BoxFit.cover),
+              InkResponse(
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: Image.network(thumbnailUrl,
+                      width: 70.0,
+                      color: Colors.grey,
+                      height: 70.0,
+                      alignment: Alignment.center,
+                      fit: BoxFit.cover),
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Text(
-                  organizationModel.title,
+                  title,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15.0),
+                  maxLines: 2,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15.0,
+                      color: Colors.white),
                 ),
               ),
             ],

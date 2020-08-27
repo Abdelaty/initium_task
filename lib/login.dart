@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
           Container(
@@ -44,8 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   child: const DecoratedBox(
                       decoration: const BoxDecoration(
-                    color: primaryColor,
-                  )),
+                        color: primaryColor,
+                      )),
                   width: double.infinity,
                   height: 100.0,
                 ),
@@ -184,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     'By using this app, you confirm accepting',
                     style:
-                        TextStyle(letterSpacing: -0.5, color: Colors.grey[800]),
+                    TextStyle(letterSpacing: -0.5, color: Colors.grey[800]),
                   ),
                   FlatButton(
                     onPressed: () {},

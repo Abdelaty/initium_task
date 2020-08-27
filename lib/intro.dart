@@ -57,6 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    getOrganizationsData();
+
     checkIfLogged(context);
     return Scaffold(
       body: Stack(
@@ -83,8 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   child: const DecoratedBox(
                       decoration: const BoxDecoration(
-                        color: primaryColor,
-                      )),
+                    color: primaryColor,
+                  )),
                   width: double.infinity,
                   height: 100.0,
                 ),
@@ -141,12 +143,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   GridView.count(
-                      mainAxisSpacing: 20,
+                      mainAxisSpacing: 0,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       crossAxisCount: 2,
-                      childAspectRatio: 1.4,
-                      children: setOrganizationList(responseList))
+                      childAspectRatio: 1.3,
+                      children: setOrganizationList())
                 ],
               ),
             ),
@@ -214,10 +216,29 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> getOrganizationsData() async {
     NetworkHelper networkHelper = NetworkHelper(getOrganizationAPI_URL, null);
     responseList = await networkHelper.getOrganizationsData();
-    for (int i in responseList) {
-      return Cell(responseList[i]);
-    }
   }
 
-  dynamic setOrganizationList(var responseList) {}
+  List<Widget> setOrganizationList() {
+    List<Widget> widgetsList = [];
+    print(responseList.length);
+    for (int i = 0; i < 3; i++) {
+      widgetsList.add(Cell(
+        title: responseList[i].title,
+        thumbnailUrl: responseList[i].thumbnailUrl,
+      ));
+    }
+    if (responseList.length > 3) {
+      widgetsList.add(Cell(
+        title: 'Other',
+        thumbnailUrl:
+        'https://icon-library.net/images/others-icon/others-icon-11.jpg',
+        clicker: openSecondScreen(),
+      ));
+    }
+    return widgetsList;
+  }
+
+  openSecondScreen() {
+    print('hello');
+  }
 }

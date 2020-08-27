@@ -32,6 +32,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       drawer: AppDrawer(),
       body: Stack(
         children: <Widget>[
@@ -57,8 +58,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   child: const DecoratedBox(
                       decoration: const BoxDecoration(
-                    color: primaryColor,
-                  )),
+                        color: primaryColor,
+                      )),
                   width: double.infinity,
                   height: 100.0,
                 ),
