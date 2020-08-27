@@ -152,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
                             child: Container(
-                              color: Color(0xFF404040),
+                          color: Color(0xFF404040),
                           margin: EdgeInsets.only(top: 100.0),
                           child: Text(
                             'Please wait its loading...',
