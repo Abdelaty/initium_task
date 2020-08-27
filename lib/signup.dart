@@ -58,8 +58,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   child: const DecoratedBox(
                       decoration: const BoxDecoration(
-                        color: primaryColor,
-                      )),
+                    color: primaryColor,
+                  )),
                   width: double.infinity,
                   height: 100.0,
                 ),

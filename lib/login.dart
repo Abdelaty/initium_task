@@ -45,8 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   child: const DecoratedBox(
                       decoration: const BoxDecoration(
-                        color: primaryColor,
-                      )),
+                    color: primaryColor,
+                  )),
                   width: double.infinity,
                   height: 100.0,
                 ),
@@ -157,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             letterSpacing: -0.5, color: Colors.grey[800]),
                       ),
                       FlatButton(
+                        padding: EdgeInsets.all(-5.0),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -186,8 +187,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     'By using this app, you confirm accepting',
                     style:
                     TextStyle(letterSpacing: -0.5, color: Colors.grey[800]),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   FlatButton(
+                    padding: EdgeInsets.all(-4.0),
                     onPressed: () {},
                     child: Text(
                       'Terms & Conditions',

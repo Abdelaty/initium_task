@@ -168,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text(
                     'Login to your account',
                     style:
-                    TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400),
+                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400),
                   ),
                   textColor: Colors.white,
                   padding: EdgeInsets.all(12.0),
@@ -189,6 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       TextStyle(fontSize: 18.0, color: Color(0xFF7f7f7f)),
                     ),
                     FlatButton(
+                      padding: EdgeInsets.all(-5.0),
                       onPressed: () {
                         Navigator.push(
                           context,
