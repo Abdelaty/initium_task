@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:initium_task/intro.dart';
+import 'package:initium_task/main.dart';
 import 'package:initium_task/signup.dart';
 
 import 'login.dart';

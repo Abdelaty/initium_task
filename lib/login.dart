@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:initium_task/constants.dart';
-import 'package:initium_task/main.dart';
+import 'package:initium_task/intro.dart';
 import 'package:initium_task/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,15 +50,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   height: 100.0,
                 ),
-                SizedBox(
-                  child: const DecoratedBox(
-                      decoration: const BoxDecoration(
-                          color: Color(0xFFe7e6e6),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              topRight: Radius.circular(30.0)))),
-                  width: double.infinity,
-                  height: 500.0,
+                Expanded(
+                  child: SizedBox(
+                    child: const DecoratedBox(
+                        decoration: const BoxDecoration(
+                            color: Color(0xFFe7e6e6),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30.0),
+                                topRight: Radius.circular(30.0)))),
+                    width: double.infinity,
+                  ),
                 )
               ],
             ),
@@ -89,6 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 40.0,
                   ),
                   NewTextField(
                     hint: 'Email Address',
