@@ -245,15 +245,13 @@ class _MyHomePageState extends State<MyHomePage> {
     for (int i = 0; i < 3; i++) {
       widgetsList.add(Cell(
         title: responseList[i].title,
-        thumbnailUrl:
-            'https://e7.pngegg.com/pngimages/865/763/png-clipart-computer-icons-font-awesome-spinner-loading-miscellaneous-white.png',
+        thumbnailUrl: responseList[i].thumbnailUrl,
       ));
     }
     if (responseList.length > 3) {
       widgetsList.add(Cell(
         title: 'Other',
-        thumbnailUrl:
-            'https://icon-library.net/images/others-icon/others-icon-11.jpg',
+        thumbnailUrl: encodedOtherImage,
         clicker: openSecondScreen(),
       ));
     }

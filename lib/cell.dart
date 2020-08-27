@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class Cell extends StatelessWidget {
@@ -14,7 +16,7 @@ class Cell extends StatelessWidget {
       child: Container(
         child: Padding(
           padding:
-              new EdgeInsets.only(left: 0.0, right: 0.0, bottom: 0.0, top: 0.0),
+          new EdgeInsets.only(left: 0.0, right: 0.0, bottom: 0.0, top: 0.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -24,12 +26,11 @@ class Cell extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10.0)),
-                  child: Image.network(thumbnailUrl,
+                  child: Image.memory(base64Decode(thumbnailUrl),
                       width: 70.0,
-                      color: Colors.grey,
                       height: 70.0,
                       alignment: Alignment.center,
-                      fit: BoxFit.cover),
+                      fit: BoxFit.fill),
                 ),
               ),
               Padding(
