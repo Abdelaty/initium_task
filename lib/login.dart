@@ -190,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     'By using this app, you confirm accepting',
                     style:
-                    TextStyle(letterSpacing: -0.5, color: Colors.grey[800]),
+                        TextStyle(letterSpacing: -0.5, color: Colors.grey[800]),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
