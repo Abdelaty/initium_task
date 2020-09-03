@@ -24,8 +24,9 @@ class Cell extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   child: Image.memory(base64Decode(thumbnailUrl),
                       width: 70.0,
                       height: 70.0,
