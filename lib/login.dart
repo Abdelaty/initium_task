@@ -294,15 +294,16 @@ class NewTextField extends StatelessWidget {
         style: TextStyle(fontSize: 14.0),
         maxLines: 1,
         decoration: new InputDecoration(
-            border: new OutlineInputBorder(
-              borderRadius: const BorderRadius.all(
-                const Radius.circular(10.0),
-              ),
+          border: new OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(10.0),
             ),
-            filled: true,
-            hintStyle: new TextStyle(color: Colors.grey[600]),
-            hintText: hint,
-            fillColor: Color(0xFFe7e6e6)),
+          ),
+          filled: true,
+          hintStyle: new TextStyle(color: Colors.grey[600]),
+          hintText: hint,
+          fillColor: Color(0xFFe7e6e6),
+        ),
       ),
     );
   }
