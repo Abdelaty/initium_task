@@ -151,15 +151,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         AsyncSnapshot<dynamic> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
-                            child: Container(
-                          color: Color(0xFF404040),
-                          margin: EdgeInsets.only(top: 100.0),
-                          child: Text(
-                            'Please wait its loading...',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white),
+                          child: Container(
+                            color: Color(0xFF404040),
+                            margin: EdgeInsets.only(top: 100.0),
+                            child: Text(
+                              'Please wait its loading...',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
-                        ));
+                        );
                       } else {
                         return GridView.count(
                             mainAxisSpacing: 0,
