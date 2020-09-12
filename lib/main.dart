@@ -163,12 +163,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                       } else {
                         return GridView.count(
-                            mainAxisSpacing: 0,
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            crossAxisCount: 2,
-                            childAspectRatio: 1.3,
-                            children: setOrganizationList());
+                          mainAxisSpacing: 0,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          childAspectRatio: 1.3,
+                          children: setOrganizationList(),
+                        );
                       }
                     },
                   )
