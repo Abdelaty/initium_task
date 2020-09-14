@@ -199,7 +199,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   textColor: Colors.white,
                   padding: EdgeInsets.all(12.0),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0)),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
                   splashColor: primaryColor,
                   color: primaryColor,
                 ),
