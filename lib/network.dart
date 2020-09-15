@@ -35,7 +35,6 @@ class NetworkHelper {
     http.Response response = await http.post(url, headers: headersMap);
     if (response.statusCode == 200) {
       print('Response Code is ' + response.statusCode.toString());
-//      return jsonDecode(response.body);
       return (jsonDecode(response.body)['Collection'] as List)
           .map((p) => OrganizationModel.fromJson(p))
           .toList();
