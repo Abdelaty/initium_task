@@ -257,11 +257,13 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
     if (responseList.length > 3) {
-      widgetsList.add(Cell(
-        title: 'Other',
-        thumbnailUrl: encodedOtherImage,
-        clicker: openSecondScreen(),
-      ));
+      widgetsList.add(
+        Cell(
+          title: 'Other',
+          thumbnailUrl: encodedOtherImage,
+          clicker: openSecondScreen(),
+        ),
+      );
     }
     return widgetsList;
   }
