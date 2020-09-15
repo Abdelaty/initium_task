@@ -249,10 +249,12 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> setOrganizationList() {
     List<Widget> widgetsList = [];
     for (int i = 0; i < 3; i++) {
-      widgetsList.add(Cell(
-        title: responseList[i].title,
-        thumbnailUrl: responseList[i].thumbnailUrl,
-      ));
+      widgetsList.add(
+        Cell(
+          title: responseList[i].title,
+          thumbnailUrl: responseList[i].thumbnailUrl,
+        ),
+      );
     }
     if (responseList.length > 3) {
       widgetsList.add(Cell(
