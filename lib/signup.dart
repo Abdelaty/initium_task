@@ -19,9 +19,9 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController passwordController = new TextEditingController();
   TextEditingController rePasswordController = new TextEditingController();
   var agreeWithTerms = false;
+
   void _onRememberMeChanged(bool newValue) => setState(() {
         agreeWithTerms = newValue;
-
         if (agreeWithTerms) {
           print('Agreed');
         } else {
