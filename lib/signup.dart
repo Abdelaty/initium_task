@@ -70,8 +70,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         decoration: const BoxDecoration(
                             color: Color(0xFFe7e6e6),
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30.0),
-                                topRight: Radius.circular(30.0)))),
+                              topLeft: Radius.circular(30.0),
+                              topRight: Radius.circular(30.0),
+                            ))),
                     width: double.infinity,
                     height: 500.0,
                   ),
