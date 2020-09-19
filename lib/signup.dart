@@ -67,12 +67,14 @@ class _SignupScreenState extends State<SignupScreen> {
                 Expanded(
                   child: SizedBox(
                     child: const DecoratedBox(
-                        decoration: const BoxDecoration(
-                            color: Color(0xFFe7e6e6),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              topRight: Radius.circular(30.0),
-                            ))),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFe7e6e6),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30.0),
+                          topRight: Radius.circular(30.0),
+                        ),
+                      ),
+                    ),
                     width: double.infinity,
                     height: 500.0,
                   ),
